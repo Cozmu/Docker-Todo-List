@@ -1,0 +1,38 @@
+version: '3'
+services:
+  todotests:
+    image: todotests
+    environment:
+      - FRONT_HOST=todofront
+    depends_on:
+      - todofront
+      - todoback
+    networks:
+      - rede-back
+      - rede-front
+      - rede-test
+  todofront:
+    image: todofrontend
+    ports:
+      - 3000:3000
+    environment:
+      - REACT_APP_API_HOST=todoback
+    depends_on:
+      - todoback
+    networks:
+      - rede-back
+      - rede-front
+      - rede-test
+  todoback:
+    image: todobackend
+    ports:
+      - 3001:3001
+    networks:
+      - rede-back
+      - rede-front
+      - rede-test
+
+networks:
+  rede-back:
+  rede-front:
+  rede-test:
